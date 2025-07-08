@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="description" content="This is the music player.">
+        <meta name="keywords" content="Music Player">        
+        <meta name="robots" content="index , follow">
         <title>Audio Player</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" 
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" 
@@ -19,6 +25,10 @@
                 background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
                 background-size: 400% 400%;
                 animation: gradientBG 10s ease infinite;
+            }
+
+            .container{
+                margin: 0 10rem;
             }
 
             .main-content{
@@ -77,6 +87,7 @@
             .music-duration-info{
                 color: white;
                 margin-top: 1rem;
+                font-size: 1rem;
             }
 
             #progress-bar, #volume-bar {
@@ -91,6 +102,37 @@
               100% { background-position: 0% 50%; }
             }
 
+            @media (width <= 420px) {
+                .main-content{
+                    padding: 4rem;
+                }
+
+                .music-head{
+                    & .song-title , .song-artist{
+                        font-size: 1.3rem;
+                    }
+                }
+
+                .music-buttons i{
+                    font-size: 1.5rem;
+                }
+
+                .music-duration-info{
+                    font-size: 0.8rem;
+                }
+            }
+
+            @media (width <= 370px) {
+                .main-content{
+                    padding: 3rem;
+                }
+            }
+
+            @media (width <= 325px) {
+                .main-content{
+                    padding: 2rem;
+                }
+            }
         </style>
     </head>
         <body>
@@ -103,9 +145,9 @@
                 </div>
 
                 <div class="music-buttons">
-                    <button class="prev"><i class="fas fa-backward"></i></button>
-                    <button class="play"><i class="fas fa-play"></i></button>
-                    <button class="next"><i class="fas fa-forward"></i></button>
+                    <button class="prev" aria-label="Previous"><i class="fas fa-backward"></i></button>
+                    <button class="play" aria-label="Play"><i class="fas fa-play"></i></button>
+                    <button class="next" aria-label="Next"><i class="fas fa-forward"></i></button>
                 </div>
 
                 <div class="music-controller">
@@ -118,9 +160,9 @@
                     <span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
                 </div>
 
-                <input type="range" id="progress-bar" value="0" max="100">
+                <input type="range" id="progress-bar" value="0" max="100" aria-label="Playback progress">
 
-                <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="1">
+                <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="1" aria-label="Volume control">
 
             </div>
         </div>
