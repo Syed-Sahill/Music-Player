@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" 
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" 
         crossorigin="anonymous"referrerpolicy="no-referrer" />
+
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
         
         <style>
             body{
@@ -24,7 +27,7 @@
                 box-sizing: border-box;
                 background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
                 background-size: 400% 400%;
-                animation: gradientBG 10s ease infinite;
+                animation: gradientBG 8s ease infinite;
             }
 
             .container{
@@ -138,7 +141,7 @@
         <body>
             
         <div class="container">
-            <div class="main-content">
+            <div class="main-content" data-aos="zoom-in">
                 <div class="music-head">
                 <div class="song-title"></div>
                 <div class="song-artist"></div>
@@ -168,7 +171,12 @@
         </div>
 
 
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
             <script>
+                AOS.init();
+
+
+                
                 const songList = [
                 {id : 1 , title : "Song 1", artist : "MBB", audio: "task-audio/Janji, Johnning - Heroes Tonight (feat. Johnning) [NCS Release].mp3"},
                 {id : 2 , title : "Song 2", artist : "NEFFEX", audio: "task-audio/waera - harinezumi [NCS Release].mp3"},
