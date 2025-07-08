@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Audio Player</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" 
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" 
+        crossorigin="anonymous"referrerpolicy="no-referrer" />
+        
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
+                background-size: 400% 400%;
+                animation: gradientBG 10s ease infinite;
+            }
+
+            .main-content{
+                background: rgba(30, 30, 47, 0.7);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                padding:5rem;
+                height: 30vh;
+                 box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            }
+
+            .music-head{
+                font-weight: bold;
+                margin-bottom: 1rem;
+                & .song-title , .song-artist{
+                    font-size: 1.8rem;
+                    text-align: center;
+                    /* letter-spacing: 0.7rem; */
+                    color: white;
+                }
+
+                & .song-artist{
+                    color: #aaa;
+                }
+            }
+            
+            .music-buttons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .music-buttons button {
+               background: none;
+               border: none;
+               outline: none;
+               padding: 0.5rem;
+               cursor: pointer;
+               margin-right: 1rem;
+            }
+            .music-buttons i {
+                color: #1db954;
+                padding:0.4rem;
+                font-size: 1.7rem;
+                background: none;
+                pointer-events: none;
+            }
+
+
+            .music-duration audio {
+            outline: none;
+            border-radius: 8px;
+            }
+
+
+            .music-duration-info{
+                color: white;
+                margin-top: 1rem;
+            }
+
+            #progress-bar, #volume-bar {
+            width: 100%;
+            margin: 1rem 0;
+            height: 5px;
+            }
+
+            @keyframes gradientBG {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+
+        </style>
+    </head>
+        <body>
+            
+        <div class="container">
+            <div class="main-content">
+                <div class="music-head">
+                <div class="song-title"></div>
+                <div class="song-artist"></div>
+                </div>
+
+                <div class="music-buttons">
+                    <button class="prev"><i class="fas fa-backward"></i></button>
+                    <button class="play"><i class="fas fa-play"></i></button>
+                    <button class="next"><i class="fas fa-forward"></i></button>
+                </div>
+
+                <div class="music-controller">
+                      <audio id="audio" src="task-audio/island-by-mbb.mp3">
+                        Your browser doesnot support the audio tag.
+                      </audio>
+                </div>
+
+                <div class="music-duration-info">
+                    <span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
+                </div>
+
+                <input type="range" id="progress-bar" value="0" max="100">
+
+                <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="1">
+
+            </div>
+        </div>
+
+
+            <script>
+                const songList = [
+                {id : 1 , title : "Song 1", artist : "MBB", audio: "task-audio/Janji, Johnning - Heroes Tonight (feat. Johnning) [NCS Release].mp3"},
+                {id : 2 , title : "Song 2", artist : "NEFFEX", audio: "task-audio/waera - harinezumi [NCS Release].mp3"},
+                {id : 3 , title : "Song 3", artist : "NCS", audio: "task-audio/island-by-mbb.mp3"},
+            ]
+
+
+            const title = document.querySelector(".song-title");
+            const artist = document.querySelector(".song-artist");
+            const prevBtn = document.querySelector(".prev");
+            const playBtn = document.querySelector(".play");
+            const nextBtn = document.querySelector(".next");
+            const audio = document.getElementById("audio")
+
+            let currentIndex = 0
+            let playMusic = true;
+
+            function loadPage(index){
+                const song = songList[index];
+                title.textContent = song.title;
+                artist.textContent = song.artist;
+                playBtn.innerHTML = `<i class="fas fa-play"></i>`
+                audio.src = song.audio;
+            }
+
+            playBtn.addEventListener("click", function () {
+            if (playMusic) {
+            audio.play();
+            playBtn.innerHTML = `<i class="fas fa-pause"></i>`;
+            } else {
+            audio.pause();
+            playBtn.innerHTML = `<i class="fas fa-play"></i>`;
+            }
+            playMusic = !playMusic; 
+            });
+
+            function play() {
+                audio.play();
+                playMusic = true;
+                playBtn.innerHTML = `<i class="fas fa-play"></i>`
+            }
+            
+
+            function pause() {
+                audio.pause();
+                playMusic = false;
+                playBtn.innerHTML = `<i class="fas fa-pause"></i>`
+            }
+
+
+
+            nextBtn.addEventListener("click", function () {
+                currentIndex++;
+                if( currentIndex >= songList.length){
+                    currentIndex = 0;
+                }
+                loadPage(currentIndex);
+                audio.play();
+                playBtn.innerHTML =  `<i class="fas fa-pause"></i>`;
+                playMusic = false;
+            });
+
+
+            prevBtn.addEventListener("click", function () {
+                currentIndex--;
+                if( currentIndex < 0){
+                    currentIndex = songList.length - 1;
+                }
+                loadPage(currentIndex);
+                audio.play();
+                playBtn.innerHTML =  `<i class="fas fa-pause"></i>`;
+                playMusic = false
+
+            });
+
+
+            // GETTING CURRRENT TIME
+
+            const currentTimeEl = document.getElementById("current-time");
+            const totalDurationEl = document.getElementById("total-duration");
+
+            audio.addEventListener("loadedmetadata", () => {
+                totalDurationEl.textContent = formatTime(audio.duration);
+            });
+
+            audio.addEventListener("timeupdate", () => {
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            });
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+               return `${mins}:${secs}`;
+            }
+
+
+            // GETTING PROGRESS BAR
+
+            const progressBar = document.getElementById("progress-bar");
+
+            audio.addEventListener("timeupdate", () => {
+                if (!isNaN(audio.duration)) {
+                progressBar.value = (audio.currentTime / audio.duration) * 100;
+            }
+            });
+
+            progressBar.addEventListener("input", () => {
+                audio.currentTime = (progressBar.value / 100) * audio.duration;
+            });
+
+
+            // GETTING VOLUME BAR
+
+            const volumeBar = document.getElementById("volume-bar");
+
+            volumeBar.addEventListener("input", () => {
+                audio.volume = volumeBar.value;
+            });
+            loadPage(currentIndex);
+
+            </script>
+        </body>
+</html>
